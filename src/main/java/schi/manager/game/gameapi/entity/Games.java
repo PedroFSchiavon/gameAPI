@@ -19,15 +19,15 @@ public class Games {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String genre;
     private LocalDate launchDate;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Distributor distributor;
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Studio> studios;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private int inventory;
 }
