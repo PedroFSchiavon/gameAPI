@@ -1,27 +1,26 @@
 package schi.manager.game.gameapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import schi.manager.game.gameapi.dto.MessageResponseDTO;
 import schi.manager.game.gameapi.entity.Games;
-import schi.manager.game.gameapi.repository.GamesRepository;
+import schi.manager.game.gameapi.service.GameService;
 
 @RestController
 @RequestMapping("/api/v1/games")
 public class GameController {
 
-    private GamesRepository gamesRepository;
-
+    private GameService gameService;
 
     @Autowired
-    public GameController(GamesRepository gamesRepository) {
-        this.gamesRepository = gamesRepository;
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
     }
 
-
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public MessageResponseDTO createGame(@RequestBody Games games){
-        Games savedGame = gamesRepository.save(games);
-        return MessageResponseDTO.builder().message("Game criado com sucesso! ID: " + savedGame.getId()).build();
+        return gameService.createGame(games);
     }
 }
