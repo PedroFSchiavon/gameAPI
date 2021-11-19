@@ -3,9 +3,11 @@ package schi.manager.game.gameapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import schi.manager.game.gameapi.dto.MessageResponseDTO;
-import schi.manager.game.gameapi.entity.Games;
+import schi.manager.game.gameapi.dto.request.GamesDTO;
+import schi.manager.game.gameapi.dto.response.MessageResponseDTO;
 import schi.manager.game.gameapi.service.GameService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/games")
@@ -20,7 +22,7 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createGame(@RequestBody Games games){
-        return gameService.createGame(games);
+    public MessageResponseDTO createGame(@RequestBody @Valid GamesDTO gamesDTO ){
+        return gameService.createGame(gamesDTO);
     }
 }

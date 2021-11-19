@@ -1,37 +1,34 @@
-package schi.manager.game.gameapi.entity;
+package schi.manager.game.gameapi.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import schi.manager.game.gameapi.entity.Studio;
 import schi.manager.game.gameapi.enums.Platform;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Distributor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DistributorDTO {
     private long id;
 
-    @Column(nullable = false)
+    @NotEmpty
     private String name;
 
     private LocalDate foundation;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Studio> studios;
 
     private String greatHit;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Platform platform;
 }

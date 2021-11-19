@@ -1,4 +1,4 @@
-package schi.manager.game.gameapi.dto;
+package schi.manager.game.gameapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

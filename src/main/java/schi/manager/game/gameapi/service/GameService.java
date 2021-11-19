@@ -2,8 +2,8 @@ package schi.manager.game.gameapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import schi.manager.game.gameapi.dto.MessageResponseDTO;
+import schi.manager.game.gameapi.dto.request.GamesDTO;
+import schi.manager.game.gameapi.dto.response.MessageResponseDTO;
 import schi.manager.game.gameapi.entity.Games;
 import schi.manager.game.gameapi.repository.GamesRepository;
 
@@ -16,8 +16,18 @@ public class GameService {
         this.gamesRepository = gamesRepository;
     }
 
-    public MessageResponseDTO createGame(Games games){
-        Games savedGame = gamesRepository.save(games);
+    public MessageResponseDTO createGame(GamesDTO gamesDTO){
+
+        Games gamesToSave = Games.builder()
+                .name(gamesDTO.getName())
+                .genre(gamesDTO.getGenre())
+                .launchDate(gamesDTO.getLaunchDate())
+                .distributor((gamesDTO.getDistributor()))
+                .studios(gamesDTO.getStudios())
+                .inventory(gamesDTO.getInventory())
+                .build();
+
+        Games savedGame = gamesRepository.save(gamesDTO);
         return MessageResponseDTO.builder().message("Game criado com sucesso! ID: " + savedGame.getId()).build();
     }
 }
