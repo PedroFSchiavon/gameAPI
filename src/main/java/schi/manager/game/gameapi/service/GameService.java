@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import schi.manager.game.gameapi.dto.request.GamesDTO;
 import schi.manager.game.gameapi.dto.response.MessageResponseDTO;
 import schi.manager.game.gameapi.entity.Games;
+import schi.manager.game.gameapi.exception.GameNotFoundException;
 import schi.manager.game.gameapi.mapper.GamesMapper;
 import schi.manager.game.gameapi.repository.GamesRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,5 +36,25 @@ public class GameService {
         List<Games> allGames = gamesRepository.findAll();
 
         return allGames.stream().map(gamesMapper::toDTO).collect(Collectors.toList());
+    }
+
+    public GamesDTO findById(Long id) throws GameNotFoundException {
+        verifyIfExist(id);
+        return gamesMapper.toDTO(verifyIfExist(id).get());
+    }
+
+    public void deleteById(Long id) throws GameNotFoundException {
+        verifyIfExist(id);
+
+        gamesRepository.deleteById(id);
+    }
+
+    private Optional<Games> verifyIfExist(Long id) throws GameNotFoundException {
+        Optional<Games> optionalGames = gamesRepository.findById(id);
+        if(optionalGames.isEmpty()){
+            throw new GameNotFoundException(id);
+        }else{
+            return optionalGames;
+        }
     }
 }
