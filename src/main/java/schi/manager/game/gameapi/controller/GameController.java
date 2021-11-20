@@ -8,6 +8,7 @@ import schi.manager.game.gameapi.dto.response.MessageResponseDTO;
 import schi.manager.game.gameapi.service.GameService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/games")
@@ -22,7 +23,12 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createGame(@RequestBody @Valid GamesDTO gamesDTO ){
+    public MessageResponseDTO createGame(@Valid @RequestBody GamesDTO gamesDTO ){
         return gameService.createGame(gamesDTO);
+    }
+
+    @GetMapping
+    public List<GamesDTO> listAll(){
+        return gameService.listAll();
     }
 }

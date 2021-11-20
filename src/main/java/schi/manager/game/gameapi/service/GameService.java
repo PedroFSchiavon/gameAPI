@@ -5,10 +5,16 @@ import org.springframework.stereotype.Service;
 import schi.manager.game.gameapi.dto.request.GamesDTO;
 import schi.manager.game.gameapi.dto.response.MessageResponseDTO;
 import schi.manager.game.gameapi.entity.Games;
+import schi.manager.game.gameapi.mapper.GamesMapper;
 import schi.manager.game.gameapi.repository.GamesRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
+    private final GamesMapper gamesMapper = GamesMapper.INSTANCE;
+
     private GamesRepository gamesRepository;
 
     @Autowired
@@ -18,16 +24,15 @@ public class GameService {
 
     public MessageResponseDTO createGame(GamesDTO gamesDTO){
 
-        Games gamesToSave = Games.builder()
-                .name(gamesDTO.getName())
-                .genre(gamesDTO.getGenre())
-                .launchDate(gamesDTO.getLaunchDate())
-                .distributor((gamesDTO.getDistributor()))
-                .studios(gamesDTO.getStudios())
-                .inventory(gamesDTO.getInventory())
-                .build();
+        Games gamesToSave = gamesMapper.toModel(gamesDTO);
 
-        Games savedGame = gamesRepository.save(gamesDTO);
+        Games savedGame = gamesRepository.save(gamesToSave);
         return MessageResponseDTO.builder().message("Game criado com sucesso! ID: " + savedGame.getId()).build();
+    }
+
+    public List<GamesDTO> listAll() {
+        List<Games> allGames = gamesRepository.findAll();
+
+        return allGames.stream().map(gamesMapper::toDTO).collect(Collectors.toList());
     }
 }

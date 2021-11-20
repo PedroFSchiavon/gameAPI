@@ -10,6 +10,7 @@ import schi.manager.game.gameapi.enums.Platform;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +21,8 @@ import java.util.List;
 public class DistributorDTO {
     private long id;
 
-    @NotEmpty
+    @NotEmpty(message = "erro")
+
     private String name;
 
     private LocalDate foundation;
@@ -30,5 +32,6 @@ public class DistributorDTO {
     private String greatHit;
 
     @Enumerated(EnumType.STRING)
+    @NotEmpty
     private Platform platform;
 }

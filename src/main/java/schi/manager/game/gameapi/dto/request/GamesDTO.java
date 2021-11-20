@@ -10,7 +10,6 @@ import schi.manager.game.gameapi.entity.Studio;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.List;
 
 @Builder
@@ -25,13 +24,12 @@ public class GamesDTO {
     @Size(min = 2, max = 20)
     private String name;
 
+    @Size(min = 2, max = 20)
     @NotEmpty
     private String genre;
 
     private String launchDate;
 
-    @Valid
-    @NotEmpty
     private Distributor distributor;
 
     @Valid
