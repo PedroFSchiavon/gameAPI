@@ -29,7 +29,7 @@ public class GameService {
         Games gamesToSave = gamesMapper.toModel(gamesDTO);
 
         Games savedGame = gamesRepository.save(gamesToSave);
-        return MessageResponseDTO.builder().message("Game criado com sucesso! ID: " + savedGame.getId()).build();
+        return getMessageResponseDTO(savedGame, "Game criado com sucesso! ID: ");
     }
 
     public List<GamesDTO> listAll() {
@@ -49,6 +49,16 @@ public class GameService {
         gamesRepository.deleteById(id);
     }
 
+    public MessageResponseDTO updateById(long id, GamesDTO gamesDTO) throws GameNotFoundException {
+        verifyIfExist(id);
+
+        Games gameToUpdate = gamesMapper.toModel(gamesDTO);
+
+        Games savedGame = gamesRepository.save(gameToUpdate);
+
+        return getMessageResponseDTO(savedGame, "Game atualizado com sucesso! ID: ");
+    }
+
     private Optional<Games> verifyIfExist(Long id) throws GameNotFoundException {
         Optional<Games> optionalGames = gamesRepository.findById(id);
         if(optionalGames.isEmpty()){
@@ -56,5 +66,9 @@ public class GameService {
         }else{
             return optionalGames;
         }
+    }
+
+    private MessageResponseDTO getMessageResponseDTO(Games savedGame, String s) {
+        return MessageResponseDTO.builder().message(s + savedGame.getId()).build();
     }
 }

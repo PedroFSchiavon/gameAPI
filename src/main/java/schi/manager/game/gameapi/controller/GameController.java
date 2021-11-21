@@ -45,4 +45,9 @@ public class GameController {
     public void deleteById(@PathVariable Long id) throws GameNotFoundException {
         gameService.deleteById(id);
     }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable long id, @RequestBody GamesDTO gamesDTO) throws GameNotFoundException {
+        return gameService.updateById(id, gamesDTO);
+    }
 }
